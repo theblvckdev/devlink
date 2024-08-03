@@ -26,7 +26,8 @@ const config = {
         foreground: "hsl(var(--foreground))",
         lightGray: "hsla(0, 0%, 98%, 1)",
         customPurple: "hsla(252, 100%, 62%, 1)",
-        purpleHove: "hsla(252°, 100%, 84%)",
+        skeleton: "hsla(0, 0%, 93%, 1)",
+        purpleHover: "hsla(252, 100%, 84%, 1)",
         lightPurple: "hsla(252, 100%, 96%, 1)",
         darkGray: "hsla(0, 0%, 20%, 1)",
         customGray: "hsla(0, 0%, 45%, 1)",
@@ -59,6 +60,9 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+      },
+      boxShadow: {
+        spread: "0px 0px 32px 0px #633CFF40",
       },
       borderRadius: {
         lg: "var(--radius)",

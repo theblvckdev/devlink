@@ -1,0 +1,3 @@
+.simulator-scroller::-webkit-scrollbar {
+  width: 0px;
+}

@@ -1,12 +1,13 @@
+"use client";
+
 import React from "react";
 import Logo from "./logo";
-import { Tabs, TabsList } from "@radix-ui/react-tabs";
-import { TabsTrigger } from "../ui/tabs";
-import { CircleUserRound, Link } from "lucide-react";
-import { useTabContext } from "@/hooks/useTabContext";
+import { CircleUserRound, Eye, Link } from "lucide-react";
+import { useTab } from "@/hooks/useTab";
+import { Button } from "../ui/button";
 
 const Navbar = () => {
-  const { value, setValue } = useTabContext();
+  const { value, setTabValue } = useTab();
 
   return (
     <>
@@ -14,35 +15,46 @@ const Navbar = () => {
         <nav className="bg-white rounded-xl p-4 flex items-center flex-row justify-between">
           <Logo />
 
-          <Tabs className="w-fit">
-            <TabsList className="flex flex-row gap-2">
-              <TabsTrigger
-                onClick={() => setValue("links")}
-                value="links"
-                className={`bg-transparent outline-none flex items-center gap-2 text-base font-semibold duration-300 ease-in hover:text-customPurple rounded-md ${
-                  value === "links"
-                    ? "bg-lightPurple text-customPurple"
-                    : "bg-transparent text-customGray"
-                }`}
-              >
-                <Link size={16} />
-                <div>Links</div>
-              </TabsTrigger>
+          <div className="flex flex-row gap-3">
+            <button
+              onClick={() => setTabValue("links")}
+              value="links"
+              className={`py-2 px-3 outline-none flex items-center gap-2 text-sm font-semibold duration-300 ease-in hover:text-customPurple rounded-md ${
+                value === "links"
+                  ? "bg-lightPurple text-customPurple"
+                  : "bg-transparent text-customGray"
+              }`}
+            >
+              <Link size={16} />
+              <div className="md:block hidden">Links</div>
+            </button>
 
-              <TabsTrigger
-                value="profile"
-                onClick={() => setValue("profile")}
-                className={`bg-transparent outline-none flex items-center gap-2 text-base font-semibold duration-300 ease-in hover:text-customPurple rounded-md ${
-                  value === "profile"
-                    ? "bg-lightPurple text-customPurple"
-                    : "bg-transparent text-customGray"
-                }`}
-              >
-                <CircleUserRound size={16} />
-                <div>Profile Details</div>
-              </TabsTrigger>
-            </TabsList>
-          </Tabs>
+            <button
+              value="profile"
+              onClick={() => setTabValue("profile")}
+              className={`py-2 px-3 outline-none flex items-center gap-2 text-sm font-semibold duration-300 ease-in hover:text-customPurple rounded-md ${
+                value === "profile"
+                  ? "bg-lightPurple text-customPurple"
+                  : "bg-transparent text-customGray"
+              }`}
+            >
+              <CircleUserRound size={16} />
+              <div className="md:block hidden">Profile Details</div>
+            </button>
+          </div>
+
+          <div>
+            <Button variant={"outline"} className="md:block hidden rounded-lg">
+              Preview
+            </Button>
+            <Button
+              size={"sm"}
+              variant={"outline"}
+              className="md:hidden block rounded-lg"
+            >
+              <Eye size={16} />
+            </Button>
+          </div>
         </nav>
       </header>
     </>
