@@ -1,12 +1,36 @@
 import { Button } from "@/components/ui/button";
 import { Image, Plus } from "lucide-react";
-import React from "react";
+import React, { ChangeEvent, useState } from "react";
+import ProfileInputs from "./widgets/ProfileInputs";
+
+interface FormState {
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+}
 
 const ProfileTab = () => {
+  const [formState, setFormState] = useState<FormState>({});
+  const [validationErros, setValidationErrors] = useState<FormState>({});
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    const { name, value } = event.target;
+
+    setFormState((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+
+    setValidationErrors((prevState) => ({
+      ...prevState,
+      [name]: "",
+    }));
+  };
+
   return (
     <>
       <div className="xl:basis-2/3 h-full w-full">
-        <div className="w-full bg-white relative rounded-t-xl md:p-7 p-5">
+        <form className="w-full bg-white relative rounded-t-xl md:p-7 md:pb-12 p-5">
           <h1 className="md:text-3xl text-2xl font-bold leading-10 text-darkGray">
             Profile Details
           </h1>
@@ -49,9 +73,38 @@ const ProfileTab = () => {
               </div>
             </div>
 
-            <div className="mt-6 p-5 rounded-xl bg-lightGray h-full"></div>
+            <div className="mt-6 p-5 rounded-xl bg-lightGray h-full">
+              <div className="flex flex-col space-y-3">
+                <ProfileInputs
+                  inputId="firstName"
+                  label="First name*"
+                  placeholder="e.g John"
+                  value={formState.firstName || ""}
+                  onChange={handleChange}
+                  inputType="text"
+                />
+
+                <ProfileInputs
+                  inputId="lastName"
+                  label="Last name*"
+                  placeholder="e.g Appleseed"
+                  value={formState.lastName || ""}
+                  onChange={handleChange}
+                  inputType="text"
+                />
+
+                <ProfileInputs
+                  inputId="email"
+                  label="Email"
+                  placeholder="e.g email@example.com"
+                  value={formState.email || ""}
+                  onChange={handleChange}
+                  inputType="email"
+                />
+              </div>
+            </div>
           </div>
-        </div>
+        </form>
         <div className="w-full bg-white relative rounded-b-xl border-t px-7 py-5">
           <div className="w-fit ml-auto">
             <Button variant={"default"}>Save</Button>
