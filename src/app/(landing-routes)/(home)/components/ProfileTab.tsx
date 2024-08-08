@@ -1,7 +1,10 @@
 import { Button } from "@/components/ui/button";
-import { Image, Plus } from "lucide-react";
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import { Image as ImageIcon, Plus } from "lucide-react";
+import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import ProfileInputs from "./widgets/ProfileInputs";
+import Image from "next/image";
+import { toast } from "@/components/ui/use-toast";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface FormState {
   firstName?: string;
@@ -11,7 +14,12 @@ interface FormState {
 
 const ProfileTab = () => {
   const [formState, setFormState] = useState<FormState>({});
-  const [validationErros, setValidationErrors] = useState<FormState>({});
+  const [validationErrors, setValidationErrors] = useState<FormState>({});
+  const [profileImage, setProfileImage] = useState<string | undefined>(
+    undefined
+  );
+  const [imageUploadLoading, setImageUploadLoading] = useState<boolean>(false);
+  const [imageError, setImageError] = useState<string>("");
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = event.target;
@@ -30,6 +38,61 @@ const ProfileTab = () => {
   const handleProfileUpdate = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
   };
+
+  const handleProfileImageChange = async (
+    event: ChangeEvent<HTMLInputElement>
+  ) => {
+    setImageUploadLoading(true);
+    setImageError("");
+
+    if (event.target.files && event.target.files.length > 0) {
+      const file = event.target.files[0];
+
+      // Validate file type
+      const validTypes = ["image/jpeg", "image/png"];
+      if (!validTypes.includes(file.type)) {
+        setImageError("Invalid file format. Please use PNG or JPG.");
+        setImageUploadLoading(false);
+        return;
+      }
+
+      // Validate image dimensions
+      const image = document.createElement("img");
+      image.src = URL.createObjectURL(file);
+      image.onload = () => {
+        const { width, height } = image;
+        if (width > 1024 || height > 1024) {
+          setImageError("Image dimensions must be below 1024x1024px.");
+          setImageUploadLoading(false);
+          return;
+        }
+
+        const imageUrl = URL.createObjectURL(file);
+
+        // Simulate image upload delay
+        setTimeout(() => {
+          setProfileImage(imageUrl);
+          setImageUploadLoading(false);
+        }, 3000);
+      };
+    } else {
+      setImageUploadLoading(false);
+    }
+  };
+
+  // show toast if image upload error
+  useEffect(() => {
+    const showToastAlert = () => {
+      if (imageError) {
+        toast({
+          title: "Profile image upload error",
+          description: imageError,
+        });
+      }
+    };
+
+    showToastAlert();
+  }, [imageError]);
 
   return (
     <>
@@ -56,20 +119,44 @@ const ProfileTab = () => {
               <div className="basis-1/3">
                 <input
                   type="file"
-                  accept="image/jpg, image/png"
+                  accept="image/jpeg, image/png"
                   id="profileUpload"
                   className="hidden"
+                  onChange={handleProfileImageChange}
                 />
 
                 <label
                   htmlFor="profileUpload"
-                  className="basis-1/3 outline-none cursor-pointer h-[193px] w-[193px] rounded-xl flex items-center flex-col justify-center bg-lightPurple gap-y-2 text-customPurple"
+                  className="basis-1/3 outline-none cursor-pointer h-[193px] w-[193px] rounded-xl flex items-center flex-col justify-center bg-lightPurple gap-y-2 text-customPurple overflow-hidden relative group"
                 >
-                  <Image size={40} />
-                  <div className="text-sm capitalize leading-6 flex gap-1 items-center">
-                    <Plus size={14} />
-                    <div>Upload image</div>
-                  </div>
+                  {imageUploadLoading ? (
+                    <Skeleton className="h-full w-full bg-gray-100" />
+                  ) : profileImage ? (
+                    <>
+                      <Image
+                        src={profileImage}
+                        width={100}
+                        height={100}
+                        alt="user profile image"
+                        className="h-full w-full object-cover"
+                      />
+
+                      <div className="absolute h-full w-full duration-300 ease-in opacity-0 bg-black group-hover:opacity-100 bg-opacity-15 text-white flex items-center justify-center flex-col">
+                        <ImageIcon size={40} />
+                        <div className="text-sm capitalize leading-6">
+                          Change image
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <ImageIcon size={40} />
+                      <div className="text-sm capitalize leading-6 flex gap-1 items-center">
+                        <Plus size={14} />
+                        <div>Upload image</div>
+                      </div>
+                    </>
+                  )}
                 </label>
               </div>
 
