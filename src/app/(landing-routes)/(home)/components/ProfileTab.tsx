@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Image, Plus } from "lucide-react";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, FormEvent, useState } from "react";
 import ProfileInputs from "./widgets/ProfileInputs";
 
 interface FormState {
@@ -27,10 +27,17 @@ const ProfileTab = () => {
     }));
   };
 
+  const handleProfileUpdate = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+  };
+
   return (
     <>
-      <div className="xl:basis-2/3 h-full w-full">
-        <form className="w-full bg-white relative rounded-t-xl md:p-7 md:pb-12 p-5">
+      <form
+        onSubmit={handleProfileUpdate}
+        className="xl:basis-2/3 h-full w-full"
+      >
+        <div className="w-full bg-white relative rounded-t-xl md:p-7 md:pb-10 p-5">
           <h1 className="md:text-3xl text-2xl font-bold leading-10 text-darkGray">
             Profile Details
           </h1>
@@ -74,7 +81,7 @@ const ProfileTab = () => {
             </div>
 
             <div className="mt-6 p-5 rounded-xl bg-lightGray h-full">
-              <div className="flex flex-col space-y-3">
+              <div className="flex flex-col space-y-4">
                 <ProfileInputs
                   inputId="firstName"
                   label="First name*"
@@ -82,6 +89,7 @@ const ProfileTab = () => {
                   value={formState.firstName || ""}
                   onChange={handleChange}
                   inputType="text"
+                  required
                 />
 
                 <ProfileInputs
@@ -91,6 +99,7 @@ const ProfileTab = () => {
                   value={formState.lastName || ""}
                   onChange={handleChange}
                   inputType="text"
+                  required
                 />
 
                 <ProfileInputs
@@ -104,13 +113,13 @@ const ProfileTab = () => {
               </div>
             </div>
           </div>
-        </form>
+        </div>
         <div className="w-full bg-white relative rounded-b-xl border-t px-7 py-5">
           <div className="w-fit ml-auto">
             <Button variant={"default"}>Save</Button>
           </div>
         </div>
-      </div>
+      </form>
     </>
   );
 };

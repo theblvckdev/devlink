@@ -8,6 +8,7 @@ interface InputProps {
   value: string;
   placeholder: string;
   inputType: string;
+  required?: boolean;
 }
 
 const ProfileInputs = ({
@@ -17,6 +18,7 @@ const ProfileInputs = ({
   value,
   placeholder,
   inputType,
+  required,
 }: InputProps) => {
   return (
     <>
@@ -39,6 +41,7 @@ const ProfileInputs = ({
             className="w-full md:min-w-[432px] text-base font-normal leading-6 py-3.5 px-4 rounded-lg"
             type={inputType}
             name={inputId}
+            required={required}
           />
         </div>
       </div>
