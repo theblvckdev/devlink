@@ -1,10 +1,9 @@
 import { Button } from "@/components/ui/button";
-import { Image as ImageIcon, Plus } from "lucide-react";
+import { Image as ImageIcon, LoaderCircle, Plus } from "lucide-react";
 import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import ProfileInputs from "./widgets/ProfileInputs";
 import Image from "next/image";
 import { toast } from "@/components/ui/use-toast";
-import { Skeleton } from "@/components/ui/skeleton";
 
 interface FormState {
   firstName?: string;
@@ -130,7 +129,15 @@ const ProfileTab = () => {
                   className="basis-1/3 outline-none cursor-pointer h-[193px] w-[193px] rounded-xl flex items-center flex-col justify-center bg-lightPurple gap-y-2 text-customPurple overflow-hidden relative group"
                 >
                   {imageUploadLoading ? (
-                    <Skeleton className="h-full w-full bg-gray-100" />
+                    <div className="h-full w-full flex flex-col items-center justify-center">
+                      <LoaderCircle
+                        size={30}
+                        className="text-customGray animate-spin"
+                      />
+                      <div className="text-xs text-center text-customGray mt-2">
+                        Loading image...
+                      </div>
+                    </div>
                   ) : profileImage ? (
                     <>
                       <Image
