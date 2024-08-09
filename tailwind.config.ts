@@ -25,6 +25,7 @@ const config = {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         lightGray: "hsla(0, 0%, 98%, 1)",
+        customBorder: "hsla(0, 0%, 85%, 1)",
         customPurple: "hsla(252, 100%, 62%, 1)",
         skeleton: "hsla(0, 0%, 93%, 1)",
         purpleHover: "hsla(252, 100%, 84%, 1)",

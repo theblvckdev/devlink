@@ -12,7 +12,7 @@ export default function HomeLayout({
   return (
     <Provider store={store}>
       <Navbar />
-      <div className="mt-4">{children}</div>
+      <div className="mt-4 h-full">{children}</div>
     </Provider>
   );
 }

@@ -5,7 +5,7 @@ import React from "react";
 
 const MobileSimulator = () => {
   return (
-    <div className="basis-1/3 bg-white relative rounded-xl h-full xl:flex justify-center items-center p-14 hidden">
+    <div className="basis-2/5 bg-white relative rounded-xl h-full xl:flex justify-center items-center p-14 hidden">
       <Image
         src="/media/mobile-preview.svg"
         alt="mobile preview simulator"

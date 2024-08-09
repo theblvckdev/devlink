@@ -34,8 +34,26 @@ const ProfileTab = () => {
     }));
   };
 
-  const handleProfileUpdate = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  // Email validation function
+  const isValidEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  // validate form inputes
+  const validateForm = (): boolean => {
+    const errors: FormState = {};
+
+    if (!formState.firstName) errors.firstName = "Can't be empty";
+    if (!formState.lastName) errors.lastName = "Can't be empty";
+    if (!formState.email) {
+      errors.email = "Can't be empty";
+    } else if (!isValidEmail(formState.email)) {
+      errors.email = "Invalid email format";
+    }
+
+    setValidationErrors(errors);
+    return Object.keys(errors).length === 0;
   };
 
   const handleProfileImageChange = async (
@@ -79,6 +97,14 @@ const ProfileTab = () => {
     }
   };
 
+  const handleProfileUpdate = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (validateForm()) {
+      console.log(formState.email, formState.firstName, formState.lastName);
+    }
+  };
+
   // show toast if image upload error
   useEffect(() => {
     const showToastAlert = () => {
@@ -97,7 +123,7 @@ const ProfileTab = () => {
     <>
       <form
         onSubmit={handleProfileUpdate}
-        className="xl:basis-2/3 h-full w-full"
+        className="xl:basis-3/5 h-full w-full"
       >
         <div className="w-full bg-white relative rounded-t-xl md:p-7 md:pb-10 p-5">
           <h1 className="md:text-3xl text-2xl font-bold leading-10 text-darkGray">
@@ -182,8 +208,9 @@ const ProfileTab = () => {
                   placeholder="e.g John"
                   value={formState.firstName || ""}
                   onChange={handleChange}
+                  errorMessage={validationErrors.firstName}
                   inputType="text"
-                  required
+                  required={validationErrors.firstName ? true : false}
                 />
 
                 <ProfileInputs
@@ -191,9 +218,10 @@ const ProfileTab = () => {
                   label="Last name*"
                   placeholder="e.g Appleseed"
                   value={formState.lastName || ""}
+                  errorMessage={validationErrors.lastName}
                   onChange={handleChange}
                   inputType="text"
-                  required
+                  required={validationErrors.lastName ? true : false}
                 />
 
                 <ProfileInputs
@@ -202,7 +230,9 @@ const ProfileTab = () => {
                   placeholder="e.g email@example.com"
                   value={formState.email || ""}
                   onChange={handleChange}
+                  errorMessage={validationErrors.email}
                   inputType="email"
+                  required={validationErrors.email ? true : false}
                 />
               </div>
             </div>
