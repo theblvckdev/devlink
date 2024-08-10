@@ -1,4 +1,4 @@
-import { GripHorizontal } from "lucide-react";
+import { GripHorizontal, Link } from "lucide-react";
 import React, { ChangeEvent } from "react";
 
 import {
@@ -13,21 +13,21 @@ import { Input } from "@/components/ui/input";
 interface ComponentProps {
   index: number;
   linkUrl: string;
-  linkType: string;
+  type: string;
   deleteLinkFunc: (id: number) => void;
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
   required?: boolean;
   errorMessage?: string;
+  onChangeUrl: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const AddLinkCard = ({
   deleteLinkFunc,
   index,
-  linkType,
   linkUrl,
-  onChange,
+  type,
   errorMessage,
   required,
+  onChangeUrl,
 }: ComponentProps) => {
   return (
     <>
@@ -70,27 +70,32 @@ const AddLinkCard = ({
               <SelectValue placeholder="Link Platform" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="light">Light</SelectItem>
-              <SelectItem value="dark">Dark</SelectItem>
-              <SelectItem value="system">System</SelectItem>
+              <SelectItem value="github">GitHub</SelectItem>
+              <SelectItem value="linkedin">LinkedIn</SelectItem>
+              <SelectItem value="twitter">Twitter</SelectItem>
+              {/* Add more options as needed */}
             </SelectContent>
           </Select>
         </div>
 
         <div className="mt-2">
           <label
-            htmlFor={`selectLink${index}`}
+            htmlFor={`inputLink${index}`}
             className="text-xs font-normal leading-4 text-darkGray"
           >
             Link
           </label>
 
           <div className="relative w-full h-full">
+            <div className="absolute left-0 top-[50%] -translate-y-[50%] text-customGray ml-4">
+              <Link size={14} />
+            </div>
             <Input
+              id={`inputLink${index}`}
               value={linkUrl}
-              onChange={onChange}
-              placeholder="e.g. https://www.yourline.come/john-doe"
-              className={`w-full md:min-w-[432px] text-base font-normal leading-6 py-3.5 px-4 rounded-lg ${
+              onChange={onChangeUrl}
+              placeholder="e.g. https://www.yourline.com/john-doe"
+              className={`w-full md:min-w-[432px] text-base font-normal leading-6 py-3.5 px-4 pl-9 rounded-lg placeholder:text-gray-400 ${
                 required
                   ? "ring-1 ring-customRed"
                   : "focus:shadow-spread focus:ring-1 duration-300 ease-in focus:ring-customPurple"

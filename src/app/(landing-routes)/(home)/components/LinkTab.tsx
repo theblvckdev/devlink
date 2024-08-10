@@ -4,6 +4,12 @@ import { Plus } from "lucide-react";
 import AddLinkGuide from "./widgets/AddLinkGuide";
 import AddLinkCard from "./widgets/AddLinkCard";
 
+interface LinkData {
+  id: number;
+  type: string;
+  url: string;
+}
+
 const dummyLinkData: LinkData[] = [
   // {
   //   id: 1,
@@ -30,6 +36,20 @@ const LinkTab = () => {
     };
 
     setAddedLinks((prevLinks) => [...prevLinks, newLink]);
+  };
+
+  // Handle change for input fields
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement>,
+    index: number,
+    field: "type" | "url"
+  ) => {
+    const value = e.target.value;
+    setAddedLinks((prevLinks) =>
+      prevLinks.map((link, i) =>
+        i === index ? { ...link, [field]: value } : link
+      )
+    );
   };
 
   // delete link logic
@@ -78,11 +98,11 @@ const LinkTab = () => {
 
                     return (
                       <AddLinkCard
-                        onChange={}
                         index={index}
                         key={index}
-                        linkType={type}
                         linkUrl={url}
+                        type={type}
+                        onChangeUrl={(e) => handleChange(e, index, "url")}
                         deleteLinkFunc={() => deleteLink(id)}
                       />
                     );
