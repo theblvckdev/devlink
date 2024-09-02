@@ -1,9 +1,12 @@
-import React from "react";
+import HomeNavbar from "./components/navbar";
 
 export default function LandingLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <main className="p-4 bg-lightGray min-h-screen h-full">{children}</main>
+    <>
+      <HomeNavbar />
+      <main>{children}</main>
+    </>
   );
 }
