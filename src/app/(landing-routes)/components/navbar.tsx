@@ -20,7 +20,7 @@ const HomeNavbar = () => {
         </div>
 
         <div>
-          <Link href={"/sign-up"} className="outline-none no-underline">
+          <Link href={"/auth"} className="outline-none no-underline">
             <Button
               variant={"default"}
               className="outline-none rounded-xl text-white"

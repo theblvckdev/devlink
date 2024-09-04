@@ -19,7 +19,7 @@ const Homepage = () => {
               together.
             </p>
 
-            <Link href={"/sign-up"} className="outline-none no-underline mt-5">
+            <Link href={"/auth"} className="outline-none no-underline mt-5">
               <Button
                 variant={"default"}
                 className="outline-none rounded-xl text-white"
